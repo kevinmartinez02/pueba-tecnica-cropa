@@ -19,13 +19,14 @@ export type CreateTaskDto = {
     /**
      * Optional task description
      */
-    description?: {
-        [key: string]: unknown;
-    } | null;
+    description?: string | null;
+};
+
+export type CreateTaskResponseDto = {
     /**
-     * ID of the user assigned to the task
+     * Confirmation message
      */
-    userId: number;
+    message: string;
 };
 
 export type AssignTaskDto = {
@@ -146,18 +147,16 @@ export type TasksControllerCreateErrors = {
      * The submitted data is invalid.
      */
     400: unknown;
-    /**
-     * The assigned user does not exist.
-     */
-    404: unknown;
 };
 
 export type TasksControllerCreateResponses = {
     /**
      * Task created with an initial pending status.
      */
-    201: unknown;
+    201: CreateTaskResponseDto;
 };
+
+export type TasksControllerCreateResponse = TasksControllerCreateResponses[keyof TasksControllerCreateResponses];
 
 export type TasksControllerAssignTaskToUserData = {
     body: AssignTaskDto;

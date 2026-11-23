@@ -14,8 +14,8 @@ const geistMono = Geist_Mono({
 });
 
 export const metadata: Metadata = {
-  title: "Daymark | Iniciar sesión",
-  description: "Inicia sesión para organizar tus tareas con claridad.",
+  title: "Gestión de tareas",
+  description: "Organiza y gestiona tus tareas.",
 };
 
 export default function RootLayout({ children }: LayoutProps<"/">) {

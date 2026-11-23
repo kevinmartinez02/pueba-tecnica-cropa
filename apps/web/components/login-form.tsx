@@ -3,13 +3,10 @@
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import {
   ArrowRight,
-  Check,
   Eye,
   EyeOff,
   LoaderCircle,
   LockKeyhole,
-  LogOut,
-  Sparkles,
 } from "lucide-react";
 import { useState, type FormEvent } from "react";
 import { Button } from "@/components/ui/button";
@@ -19,6 +16,7 @@ import {
   type UserSession,
 } from "@/lib/auth/session";
 import { tasksControllerLogin } from "@/lib/api/generated/sdk.gen";
+import { TasksDashboard } from "@/components/tasks-dashboard";
 
 type Credentials = {
   username: string;
@@ -119,6 +117,17 @@ export function LoginForm() {
 
   const user = sessionQuery.data?.user;
 
+  if (user) {
+    return (
+      <TasksDashboard
+        loggingOut={logoutMutation.isPending}
+        logoutError={logoutMutation.isError ? "No se pudo cerrar sesión." : undefined}
+        onLogout={() => logoutMutation.mutate()}
+        user={user}
+      />
+    );
+  }
+
   return (
     <main className="relative grid min-h-screen place-items-center overflow-hidden bg-[#f7f8f6] px-5 py-12 text-[#202723]">
       <div
@@ -132,50 +141,8 @@ export function LoginForm() {
 
       <section className="relative w-full max-w-[420px]">
         <div className="rounded-[24px] border border-[#e9ece8] bg-white p-7 shadow-[0_24px_70px_-42px_rgba(28,43,35,0.32)] sm:p-9">
-          {user ? (
-            <div className="py-2 text-center">
-              <span className="mx-auto mb-5 grid size-12 place-items-center rounded-2xl bg-[#edf5ef] text-[#3f7357]">
-                <Check
-                  aria-hidden="true"
-                  className="size-6"
-                  strokeWidth={2.5}
-                />
-              </span>
-              <p className="mb-2 inline-flex items-center gap-1.5 rounded-full bg-[#f1f5f1] px-3 py-1 text-[11px] font-semibold uppercase tracking-[0.12em] text-[#55705e]">
-                <Sparkles aria-hidden="true" className="size-3" /> Sesión activa
-              </p>
-              <h1 className="mt-3 text-[26px] font-semibold tracking-[-0.045em]">
-                Hola, {user.name}
-              </h1>
-              <p className="mt-2 text-sm leading-6 text-[#727b75]">
-                Ya iniciaste sesión. Tu espacio está listo.
-              </p>
-              <div className="mt-7 rounded-xl border border-[#edf0ed] bg-[#fafbfa] px-4 py-3 text-left">
-                <p className="text-[11px] font-medium uppercase tracking-[0.1em] text-[#89918b]">
-                  Usuario
-                </p>
-                <p className="mt-1 text-sm font-medium text-[#303a34]">
-                  {user.username}
-                </p>
-              </div>
-              <Button
-                className="mt-6 h-11 w-full rounded-xl border border-[#e4e9e4] bg-white text-[#36423b] hover:bg-[#f7f9f7]"
-                disabled={logoutMutation.isPending}
-                onClick={() => logoutMutation.mutate()}
-                type="button"
-                variant="outline"
-              >
-                {logoutMutation.isPending ? (
-                  <LoaderCircle className="animate-spin" />
-                ) : (
-                  <LogOut />
-                )}
-                Cerrar sesión
-              </Button>
-            </div>
-          ) : (
-            <>
-              <div className="mb-7">
+          <>
+            <div className="mb-7">
                 <p className="mb-3 text-[11px] font-semibold uppercase tracking-[0.15em] text-[#7b897f]">
                   Tu espacio de trabajo
                 </p>
@@ -273,14 +240,13 @@ export function LoginForm() {
                     </>
                   )}
                 </Button>
-              </form>
+            </form>
 
               <div className="mt-6 flex items-center justify-center gap-2 border-t border-[#eff1ee] pt-5 text-[11px] text-[#87918a]">
                 <LockKeyhole aria-hidden="true" className="size-3.5" />
                 Solo usuarios registrados pueden acceder
               </div>
-            </>
-          )}
+          </>
         </div>
 
         <p className="mt-5 text-center text-[11px] text-[#9aa19c]">

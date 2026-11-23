@@ -4,7 +4,7 @@ import { type DefaultError, queryOptions, type UseMutationOptions } from '@tanst
 
 import { client } from '../client.gen';
 import { appControllerGetHello, type Options, tasksControllerAssignTaskToUser, tasksControllerCreate, tasksControllerFindAll, tasksControllerFindUsers, tasksControllerLogin, tasksControllerUpdateStatus } from '../sdk.gen';
-import type { AppControllerGetHelloData, TasksControllerAssignTaskToUserData, TasksControllerCreateData, TasksControllerFindAllData, TasksControllerFindUsersData, TasksControllerLoginData, TasksControllerUpdateStatusData } from '../types.gen';
+import type { AppControllerGetHelloData, TasksControllerAssignTaskToUserData, TasksControllerCreateData, TasksControllerCreateResponse, TasksControllerFindAllData, TasksControllerFindUsersData, TasksControllerLoginData, TasksControllerUpdateStatusData } from '../types.gen';
 
 export type QueryKey<TOptions extends Options> = [
     Pick<TOptions, 'baseUrl' | 'body' | 'headers' | 'path' | 'query'> & {
@@ -108,10 +108,10 @@ export const tasksControllerFindAllOptions = (options?: Options<TasksControllerF
 });
 
 /**
- * Create a task and assign it to a user
+ * Create an unassigned task
  */
-export const tasksControllerCreateMutation = (options?: Partial<Options<TasksControllerCreateData>>): UseMutationOptions<unknown, DefaultError, Options<TasksControllerCreateData>> => {
-    const mutationOptions: UseMutationOptions<unknown, DefaultError, Options<TasksControllerCreateData>> = {
+export const tasksControllerCreateMutation = (options?: Partial<Options<TasksControllerCreateData>>): UseMutationOptions<TasksControllerCreateResponse, DefaultError, Options<TasksControllerCreateData>> => {
+    const mutationOptions: UseMutationOptions<TasksControllerCreateResponse, DefaultError, Options<TasksControllerCreateData>> = {
         mutationFn: async (fnOptions) => {
             const { data } = await tasksControllerCreate({
                 ...options,

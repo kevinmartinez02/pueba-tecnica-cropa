@@ -43,7 +43,7 @@ export const tasksControllerFindUsers = <ThrowOnError extends boolean = false>(o
 export const tasksControllerFindAll = <ThrowOnError extends boolean = false>(options?: Options<TasksControllerFindAllData, ThrowOnError>): RequestResult<TasksControllerFindAllResponses, TasksControllerFindAllErrors, ThrowOnError> => (options?.client ?? client).get<TasksControllerFindAllResponses, TasksControllerFindAllErrors, ThrowOnError>({ url: '/tasks', ...options });
 
 /**
- * Create a task and assign it to a user
+ * Create an unassigned task
  */
 export const tasksControllerCreate = <ThrowOnError extends boolean = false>(options: Options<TasksControllerCreateData, ThrowOnError>): RequestResult<TasksControllerCreateResponses, TasksControllerCreateErrors, ThrowOnError> => (options.client ?? client).post<TasksControllerCreateResponses, TasksControllerCreateErrors, ThrowOnError>({
     url: '/tasks',

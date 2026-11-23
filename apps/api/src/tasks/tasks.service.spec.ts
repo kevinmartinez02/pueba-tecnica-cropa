@@ -48,43 +48,30 @@ describe('TasksService', () => {
     });
   });
 
-  it('assigns a new task to an existing user before saving it', async () => {
-    const user = { id: 7, username: 'maria', name: 'Maria' } as User;
+  it('creates an unassigned task and returns a confirmation message', async () => {
     const task = {
       title: 'Prepare the quarterly presentation',
-      description: null,
+      description: 'Collect the figures',
       status: TaskStatus.PENDING,
-      user,
+      user: null,
     } as Task;
-    usersRepository.findOneBy.mockResolvedValue(user);
     tasksRepository.create.mockReturnValue(task);
-    tasksRepository.save.mockImplementation(async (savedTask) => savedTask);
+    tasksRepository.save.mockResolvedValue(task);
 
     const result = await service.create({
       title: ' Prepare the quarterly presentation ',
-      userId: 7,
+      description: ' Collect the figures ',
     } as CreateTaskDto);
 
-    expect(usersRepository.findOneBy).toHaveBeenCalledWith({ id: 7 });
+    expect(usersRepository.findOneBy).not.toHaveBeenCalled();
     expect(tasksRepository.create).toHaveBeenCalledWith({
       title: 'Prepare the quarterly presentation',
-      description: null,
+      description: 'Collect the figures',
       status: TaskStatus.PENDING,
-      user,
+      user: null,
     });
-    expect(task.user).toBe(user);
     expect(tasksRepository.save).toHaveBeenCalledWith(task);
-    expect(result).toBe(task);
-  });
-
-  it('rejects assignment when the user does not exist', async () => {
-    usersRepository.findOneBy.mockResolvedValue(null);
-    tasksRepository.create.mockReturnValue({ title: 'Task' });
-
-    await expect(
-      service.create({ title: 'Task', userId: 99 } as CreateTaskDto),
-    ).rejects.toBeInstanceOf(NotFoundException);
-    expect(tasksRepository.save).not.toHaveBeenCalled();
+    expect(result).toEqual({ message: 'Task created successfully' });
   });
 
   it('reassigns an existing task to another user', async () => {

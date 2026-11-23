@@ -39,7 +39,7 @@ export class Task {
   @UpdateDateColumn({ name: 'updated_at' })
   updatedAt!: Date;
 
-  @ManyToOne(() => User, (user) => user.tasks, { nullable: false })
+  @ManyToOne(() => User, (user) => user.tasks, { nullable: true })
   @JoinColumn({ name: 'user_id' })
-  user!: Relation<User>;
+  user!: Relation<User> | null;
 }

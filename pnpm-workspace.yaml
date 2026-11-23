@@ -5,3 +5,6 @@ allowBuilds:
   '@scarf/scarf': false
   bcrypt: true
   better-sqlite3: true
+minimumReleaseAgeExclude:
+  - '@tanstack/query-core@5.108.4'
+  - '@tanstack/react-query@5.108.4'

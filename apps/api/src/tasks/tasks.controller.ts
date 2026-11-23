@@ -25,6 +25,7 @@ import {
 import { TasksService } from './tasks.service.js';
 import { AssignTaskDto } from './dto/assign-task.dto.js';
 import { CreateTaskDto } from './dto/create-task.dto.js';
+import { CreateTaskResponseDto } from './dto/create-task-response.dto.js';
 import { FindTasksQueryDto } from './dto/find-tasks-query.dto.js';
 import { LoginDto } from './dto/login.dto.js';
 import { UpdateTaskStatusDto } from './dto/update-task-status.dto.js';
@@ -105,24 +106,13 @@ export class TasksController {
   }
 
   @Post()
-  @ApiOperation({ summary: 'Create a task and assign it to a user' })
+  @ApiOperation({ summary: 'Create an unassigned task' })
   @ApiBody({ type: CreateTaskDto })
   @ApiCreatedResponse({
     description: 'Task created with an initial pending status.',
-    schema: {
-      example: {
-        id: 3,
-        title: 'Prepare the quarterly presentation',
-        description: 'Collect the latest quarterly figures',
-        status: 'pending',
-        createdAt: '2026-11-23T16:00:00.000Z',
-        updatedAt: '2026-11-23T16:00:00.000Z',
-        user: { id: 1, username: 'maria', name: 'Maria' },
-      },
-    },
+    type: CreateTaskResponseDto,
   })
   @ApiBadRequestResponse({ description: 'The submitted data is invalid.' })
-  @ApiNotFoundResponse({ description: 'The assigned user does not exist.' })
   create(@Body() createTaskDto: CreateTaskDto) {
     return this.tasksService.create(createTaskDto);
   }

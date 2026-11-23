@@ -1,5 +1,5 @@
 import { ApiProperty, ApiPropertyOptional } from '@nestjs/swagger';
-import { IsInt, IsOptional, IsString, Matches, Min } from 'class-validator';
+import { IsOptional, IsString, Matches } from 'class-validator';
 
 export class CreateTaskDto {
   @ApiProperty({
@@ -12,6 +12,7 @@ export class CreateTaskDto {
   title!: string;
 
   @ApiPropertyOptional({
+    type: String,
     example: 'Collect the latest quarterly figures',
     description: 'Optional task description',
     nullable: true,
@@ -19,13 +20,4 @@ export class CreateTaskDto {
   @IsOptional()
   @IsString({ message: 'description must be a string' })
   description?: string | null;
-
-  @ApiProperty({
-    example: 1,
-    description: 'ID of the user assigned to the task',
-    minimum: 1,
-  })
-  @IsInt({ message: 'userId must be an integer' })
-  @Min(1, { message: 'userId must be at least 1' })
-  userId!: number;
 }

@@ -20,6 +20,7 @@
     "migration:run": "typeorm-ts-node-esm migration:run -d ./database/database.source.ts",
     "migration:revert": "typeorm-ts-node-esm migration:revert -d ./database/database.source.ts",
     "migration:show": "typeorm-ts-node-esm migration:show -d ./database/database.source.ts",
+    "seed:demo-users": "node ./database/scripts/seed-demo-users.js",
     "lint": "oxlint --type-aware src/ test/",
     "test": "vitest run",
     "test:watch": "vitest",

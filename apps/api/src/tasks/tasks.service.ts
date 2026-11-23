@@ -77,15 +77,15 @@ export class TasksService {
   }
 
   async create(createTaskDto: CreateTaskDto) {
-    const user = await this.findUserForAssignment(createTaskDto.userId);
     const task = this.tasksRepository.create({
       title: createTaskDto.title.trim(),
       description: createTaskDto.description?.trim() || null,
       status: TaskStatus.PENDING,
-      user,
+      user: null,
     });
 
-    return this.tasksRepository.save(task);
+    await this.tasksRepository.save(task);
+    return { message: 'Task created successfully' };
   }
 
   private async findUserForAssignment(userId: number) {

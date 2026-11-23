@@ -5,6 +5,7 @@ import { resolve } from 'node:path';
 import { apiRoot, resolveDatabasePath } from './database-path.js';
 import { AppController } from './app.controller.js';
 import { AppService } from './app.service.js';
+import { TasksModule } from './tasks/tasks.module.js';
 
 @Module({
   imports: [
@@ -22,6 +23,7 @@ import { AppService } from './app.service.js';
         migrationsTableName: 'migrations',
       }),
     }),
+    TasksModule,
   ],
   controllers: [AppController],
   providers: [AppService],

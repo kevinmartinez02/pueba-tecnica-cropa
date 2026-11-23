@@ -7,7 +7,7 @@ config({path:'.env'});
 
 async function bootstrap() {
   const app = await NestFactory.create(AppModule);
-  app.useGlobalPipes(new ValidationPipe());
+  app.useGlobalPipes(new ValidationPipe({ transform: true }));
   const config = new DocumentBuilder()
     .setTitle('Prueba APIS')
     .setVersion('1.0')
